@@ -16,8 +16,8 @@ end component;
 constant num_cycles : integer := 10;
 signal tb_clk       : std_logic := '0';
 signal tb_rst       : std_logic := '1';
-signal tb_prime      : std_logic_vector (15 downto 0) := x"0000";
-signal tb_result    : std_logic_vector (15 downto 0) := x"0000";
+signal tb_prime     : std_logic_vector (15 downto 0);
+signal tb_result    : std_logic_vector (15 downto 0);
 
 begin
     mapping: uniform_random_GEN port map(   clk => tb_clk,
