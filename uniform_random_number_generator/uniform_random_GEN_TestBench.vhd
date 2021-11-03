@@ -16,7 +16,7 @@ end component;
 constant num_cycles : integer := 10;
 signal tb_clk       : std_logic := '0';
 signal tb_rst       : std_logic := '1';
-signal tb_prime     : std_logic_vector (15 downto 0);
+signal tb_prime      : std_logic_vector (15 downto 0);
 signal tb_result    : std_logic_vector (15 downto 0);
 
 begin
@@ -37,11 +37,10 @@ begin
     reset: process is
     begin
         tb_rst <= '1';
-        wait for 5 ns;
-        tb_rst <= '0';
         tb_prime <= x"0061"; --97
         wait for 5 ns;
+        tb_rst <= '0';
+        wait;
     end process;
-
-
+    
 end bench;

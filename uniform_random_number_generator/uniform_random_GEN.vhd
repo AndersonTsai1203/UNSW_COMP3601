@@ -13,20 +13,22 @@ architecture Behavioral of uniform_random_GEN is
 
 signal lfsr_reg         : std_logic_vector (15 downto 0);
 signal feedback         : std_logic := '0';
+signal temp_reg         : integer;
 
 begin
     
     process(clk, rst) is
-        variable temp_reg : integer;
+        
     begin
-        lfsr_reg <= prime;
-        feedback <= lfsr_reg(15) xor lfsr_reg(14) xor lfsr_reg(12) xor lfsr_reg(3);
         if (rst = '1') then
+            lfsr_reg <= prime;
             result <= x"0000";
         elsif rising_edge(clk) then
-            lfsr_reg <= feedback & lfsr_reg(15 downto 1);
-            temp_reg := conv_integer(unsigned(lfsr_reg)) mod conv_integer(unsigned(prime));           
+            feedback <= lfsr_reg(15) xor lfsr_reg(14) xor lfsr_reg(12) xor lfsr_reg(3);
+            lfsr_reg <= lfsr_reg(14 downto 0) & feedback;
+            temp_reg <= conv_integer(unsigned(lfsr_reg)) mod conv_integer(unsigned(prime));
+            result <= conv_std_logic_vector(temp_reg, result'length);             
         end if;
-        result <= conv_std_logic_vector (temp_reg, result'length);
+        
     end process;
 end Behavioral;
