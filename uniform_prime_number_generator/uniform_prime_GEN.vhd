@@ -17,7 +17,7 @@ architecture Behavioral of uniform_prime_GEN is
     signal min          : std_logic_vector(15 downto 0) := min_q;
     signal max          : std_logic_vector(15 downto 0) := max_q;
     signal lfsr_reg     : std_logic_vector(15 downto 0);
-    signal feedback     : std_logic;
+    signal feedback     : std_logic := '0';
     signal is_prime     : std_logic := '1';
    
 begin
