@@ -32,7 +32,7 @@ begin
             
             if(min_q = x"0000" and max_q = x"0080") then
                 temp_reg := conv_integer(unsigned(lfsr_reg)) mod 128;
-            elsif (min_q = x"0800" and max_q = x"4000") then
+            elsif (min_q = x"0800" and max_q = x"2000") then
                 temp_reg := conv_integer(unsigned(lfsr_reg)) mod 6144;
                 temp_reg := temp_reg + 2048;
             elsif (min_q = x"4000" and max_q = x"FFFF") then
