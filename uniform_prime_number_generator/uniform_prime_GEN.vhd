@@ -14,8 +14,6 @@ end uniform_prime_GEN;
 
 architecture Behavioral of uniform_prime_GEN is
 
-    signal min          : std_logic_vector(15 downto 0) := min_q;
-    signal max          : std_logic_vector(15 downto 0) := max_q;
     signal lfsr_reg     : std_logic_vector(15 downto 0);
     signal feedback     : std_logic := '0';
     signal is_prime     : std_logic := '1';
@@ -25,9 +23,10 @@ begin
         variable temp_reg     : integer;
     begin
         if (rst = '1') then
-            result <= x"0000";
-        elsif rising_edge (clk) then
             lfsr_reg <= max_q;
+            result <= x"0000";
+            valid <= '0';
+        elsif rising_edge (clk) then
             feedback <= lfsr_reg(15) xor lfsr_reg(14) xor lfsr_reg(12) xor lfsr_reg(3);
             lfsr_reg <= feedback & lfsr_reg(15 downto 1);
             

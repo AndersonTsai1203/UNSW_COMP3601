@@ -18,8 +18,8 @@ end component;
     signal tb_clk       : std_logic := '0';
     signal tb_rst       : std_logic := '1';
     signal tb_valid     : std_logic;
-    signal tb_temp1     : std_logic_vector (4 downto 0) := "00000";
-    signal tb_temp2     : std_logic_vector (4 downto 0) := "00000";
+    signal tb_temp1     : std_logic_vector (4 downto 0);
+    signal tb_temp2     : std_logic_vector (4 downto 0);
     signal tb_result    : std_logic_vector (4 downto 0);
 
 constant clock_period : time := 20 ns;
