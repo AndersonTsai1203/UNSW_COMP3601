@@ -11,25 +11,22 @@ component uniform_prime_GEN is
              rst        : in std_logic;
              min_q      : in std_logic_vector (15 downto 0);
              max_q      : in std_logic_vector (15 downto 0);
-             valid      : out std_logic;
              result     : out std_logic_vector (15 downto 0));
 end component;
 
     signal tb_clk       : std_logic := '0';
     signal tb_rst       : std_logic := '1';
-    signal tb_valid     : std_logic;
-    signal tb_temp1     : std_logic_vector (15 downto 0) := x"0000";
-    signal tb_temp2     : std_logic_vector (15 downto 0) := x"0000";
+    signal tb_min       : std_logic_vector (15 downto 0);
+    signal tb_max       : std_logic_vector (15 downto 0);
     signal tb_result    : std_logic_vector (15 downto 0);
 
-constant clock_period : time := 20 ns;
+constant clock_period : time := 10 ns;
 
 begin
     uut: uniform_prime_GEN port map(  clk => tb_clk,
                                         rst => tb_rst,
-                                        min_q => tb_temp1,
-                                        max_q => tb_temp2,
-                                        valid => tb_valid,
+                                        min_q => tb_min,
+                                        max_q => tb_max,
                                         result => tb_result);
     clock :process
     begin
@@ -42,9 +39,13 @@ begin
     stim_proc: process
     begin
         tb_rst <= '1';
-        tb_temp1 <= x"0800"; --2048
-        tb_temp2 <= x"2000"; --8192
-        wait for 10 ns;
+        --tb_min <= x"0000"; --0
+        --tb_max <= x"0080"; --128
+        --tb_min <= x"0800"; --2048
+        --tb_max <= x"2000"; --8192
+        tb_min <= x"4000"; --16384
+        tb_max <= x"FFFF"; --65535
+        wait for 5 ns;
         tb_rst <= '0';
         wait;
     end process;
