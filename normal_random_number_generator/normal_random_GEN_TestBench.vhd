@@ -1,58 +1,62 @@
 library ieee;
-use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+use ieee.std_logic_1164.ALL;
+use ieee.numeric_std.ALL;
 
-entity TB_normal_rng is
-end TB_normal_rng;
+entity random_gaussian_test_bench is
+end random_gaussian_test_bench;
 
-architecture behavioral of TB_normal_rng is
+architecture Behavioral of random_gaussian_test_bench is
 
-    component normal_rng
-    port(
-         clk    : in  std_logic;
-         reset  : in  std_logic;
-         random : out  std_logic_vector(4 downto 0)
-        );
+    component random_gaussian is
+        port ( clk      : in std_logic;
+               rst      : in std_logic;
+               min_e    : in std_logic_vector (5 downto 0);
+               max_e    : in std_logic_vector (5 downto 0);
+               result   : out std_logic_vector (5 downto 0));
     end component;
 
-
    --Inputs
-   signal clk : std_logic := '0';
-   signal reset : std_logic := '0';
+   signal tb_clk    : std_logic := '0';
+   signal tb_rst    : std_logic := '0';
+   signal tb_min_e  : std_logic_vector (5 downto 0);
+   signal tb_max_e  : std_logic_vector (5 downto 0);
 
     --Outputs
-   signal random : std_logic_vector(4 downto 0);
+   signal tb_result : std_logic_vector (5 downto 0);
 
    -- Clock period definitions
    constant clk_period : time := 10 ns;
 
 begin
-
     -- Instantiate the Unit Under Test (UUT)
-   uut: normal_rng port map ( clk => clk,
-                              reset => reset,
-                              random => random);
+    uut: random_gaussian port map ( clk => tb_clk,
+                                    rst => tb_rst,
+                                    min_e => tb_min_e,
+                                    max_e => tb_max_e,
+                                    result => tb_result);
 
-   -- Clock process definitions
-   clk_process :process
-   begin
-        clk <= '0';
+    -- Clock process definitions
+    clk_process :process
+    begin
+        tb_clk <= '0';
         wait for clk_period/2;
-        clk <= '1';
+        tb_clk <= '1';
         wait for clk_period/2;
    end process;
-
 
     -- Stimulus process
     stim_proc: process
-    variable I : integer;
-    begin        
-        reset <= '1';
-        wait for clk_period*20;
-
-        reset <= '0';
-        wait for clk_period*30;
+    begin
+        tb_rst <= '1';
+        --tb_min_e <= "111111"; -- -1
+        --tb_max_e <= "000001"; -- 1
+        --tb_min_e <= "111100"; -- -4
+        --tb_max_e <= "000100"; -- 4
+        tb_min_e <= "110000"; -- -16
+        tb_max_e <= "010000"; -- 16
+        wait for 5 ns;
+        tb_rst <= '0';
         wait;
-   end process;
+    end process;
 
-end behavioral;
+END;
